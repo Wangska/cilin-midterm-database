@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +23,6 @@
             </div>
             
             <?php
-            session_start();
             if (isset($_SESSION['error'])) {
                 echo '<div class="alert alert-error">' . $_SESSION['error'] . '</div>';
                 unset($_SESSION['error']);
