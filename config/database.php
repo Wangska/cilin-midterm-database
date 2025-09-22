@@ -9,7 +9,7 @@ $password = $_ENV['DB_PASSWORD'] ?? getenv('DB_PASSWORD') ?: '';
 $port = $_ENV['DB_PORT'] ?? getenv('DB_PORT') ?: '3306';
 
 // For debugging (remove in production)
-// error_log("DB Config: $host:$port/$dbname with user $username");
+error_log("DB Config: $host:$port/$dbname with user $username");
 
 try {
     $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
@@ -26,11 +26,14 @@ try {
     // Log the error instead of displaying it in production
     error_log("Database Connection Error: " . $e->getMessage());
     
-    // Show user-friendly message
-    if ($_ENV['APP_ENV'] === 'production' || getenv('APP_ENV') === 'production') {
-        die("Database connection failed. Please try again later.");
-    } else {
-        die("Connection failed: " . $e->getMessage());
-    }
+    // For debugging - always show detailed error (comment out for production)
+    die("Connection failed: " . $e->getMessage() . "<br><br>Using connection: $host:$port/$dbname with user '$username'");
+    
+    // Uncomment below for production and comment out the line above
+    // if ($_ENV['APP_ENV'] === 'production' || getenv('APP_ENV') === 'production') {
+    //     die("Database connection failed. Please try again later.");
+    // } else {
+    //     die("Connection failed: " . $e->getMessage());
+    // }
 }
 ?>
